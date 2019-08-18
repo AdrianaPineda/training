@@ -3,9 +3,9 @@ function permutationEquation(p) {
     const valToIndexDict = getValueToIndexDictionary(p);
     const permutations = []
     for (let i = 1; i <= p.length; i++) {
-        const py = valToIndexDict[i]
-        const ppy = valToIndexDict[py]
-        permutations.push(ppy)
+        const indexPosition = valToIndexDict[i]
+        const targetPosition = valToIndexDict[indexPosition]
+        permutations.push(targetPosition)
     }
 
     return permutations
