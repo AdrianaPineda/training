@@ -2,22 +2,36 @@
 function cutTheSticks(arr) {
   const sticksLeft = [arr.length];
   const sortedArray = arr.sort((a, b) => parseInt(a) - parseInt(b));
-  const set = new Set(sortedArray);
-  const sticksLenghts = new Map();
-  arr.forEach(element => {
-    let currentValue = sticksLenghts.get(element);
-    const value = currentValue ? ++currentValue : 1;
-    sticksLenghts.set(element, value);
-  });
-  set.forEach(element => {
-    const numberOfSticksLeft =
-      sticksLeft[sticksLeft.length - 1] - sticksLenghts.get(element);
-    if (numberOfSticksLeft > 0) {
-      sticksLeft.push(numberOfSticksLeft);
+  let nextValue = 0;
+  sortedArray.forEach((element, index) => {
+    const isThereANextValue = index < arr.length - 1;
+    if (isThereANextValue) {
+      nextValue = sortedArray[index + 1];
+      if (nextValue != element) {
+        sticksLeft.push(arr.length - index - 1);
+      }
     }
   });
 
   return sticksLeft;
+//   const sticksLeft = [arr.length];
+//   const sortedArray = arr.sort((a, b) => parseInt(a) - parseInt(b));
+//   const set = new Set(sortedArray);
+//   const sticksLenghts = new Map();
+//   arr.forEach(element => {
+//     let currentValue = sticksLenghts.get(element);
+//     const value = currentValue ? ++currentValue : 1;
+//     sticksLenghts.set(element, value);
+//   });
+//   set.forEach(element => {
+//     const numberOfSticksLeft =
+//       sticksLeft[sticksLeft.length - 1] - sticksLenghts.get(element);
+//     if (numberOfSticksLeft > 0) {
+//       sticksLeft.push(numberOfSticksLeft);
+//     }
+//   });
+
+//   return sticksLeft;
   /**
    * const sticksLeft = [arr.length];
     const sortedArray = arr.sort((a, b) => parseInt(a) - parseInt(b));
