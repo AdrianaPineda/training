@@ -8,7 +8,8 @@ function cutTheSticks(arr) {
     if (isThereANextValue) {
       nextValue = sortedArray[index + 1];
       if (nextValue != element) {
-        sticksLeft.push(arr.length - index - 1);
+        const elementsLeft = arr.length - index - 1;
+        sticksLeft.push(elementsLeft);
       }
     }
   });
