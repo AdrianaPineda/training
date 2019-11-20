@@ -1,55 +1,18 @@
 // Complete the alternate function below.
 function alternate(s) {
-    const dict = buildDict(s);
+    const stringAsArray = s.split("");
+    const dict = buildDict(stringAsArray);
     let largestString = 0;
     Object.keys(dict).forEach(key => {
-        const ocurrences = dict[key];
-        console.log("1. ====", key, ocurrences);
-        const result = Object.keys(dict).reduce((acc, currentKey) => {
-            if (currentKey === key) {
-                return acc;
+        Object.keys(dict).forEach(secondKey => {
+            if (key === secondKey) {
+                return;
             }
-
-            const currentOccurrences = dict[currentKey];
-            console.log("2a. ====", currentKey, currentOccurrences);
-            const resultingOcurrences = [];
-            currentOccurrences.forEach(occurrence => {
-                console.log("2b. ====", occurrence);
-                let changedIndexes = 0;
-                ocurrences.forEach(occ => {
-                    if (occ < occurrence) {
-                        changedIndexes++;
-                    }
-                });
-                resultingOcurrences.push(occurrence - changedIndexes);
-            });
-
-            console.log("2c. ====", resultingOcurrences);
-
-            let isValidString = true;
-            for (let i = 0; i < resultingOcurrences.length; i++) {
-                const currentElement = resultingOcurrences[i];
-                if (i > 0) {
-                    if (currentElement - resultingOcurrences[i - 1] === 1) {
-                        isValidString = false;
-                    }
-                }
+            const result = buildLongest(key, secondKey, stringAsArray);
+            if (result.length > largestString) {
+                largestString = result.length;
             }
-
-            console.log("===== valid", isValidString);
-            if (isValidString) {
-                acc += currentOccurrences.length;
-                return acc;
-            }
-
-            return 0;
-        }, 0);
-
-        if (result > largestString) {
-            largestString = result;
-        }
-
-        console.log("largest ====", largestString);
+        });
     });
 
     return largestString;
@@ -57,7 +20,7 @@ function alternate(s) {
 
 function buildDict(s) {
     const dict = {};
-    s.split("").forEach((element, index) => {
+    s.forEach((element, index) => {
         const ocurrences = dict[element] ? dict[element] : [];
         ocurrences.push(index);
         dict[element] = ocurrences;
@@ -66,5 +29,31 @@ function buildDict(s) {
     return dict;
 }
 
-// console.log(alternate("abaacdabd"));
-console.log(alternate("beabeefeab"));
+function buildLongest(key1, key2, originalStringArray) {
+    const result = [];
+    originalStringArray.forEach(currentKey => {
+        if (currentKey === key1 || currentKey === key2) {
+            result.push(currentKey);
+        }
+    });
+
+    const valid = isValidString(result);
+    return valid ? result : [];
+}
+
+function isValidString(resultingOcurrences) {
+    let isValidString = true;
+    for (let i = 0; i < resultingOcurrences.length; i++) {
+        const currentElement = resultingOcurrences[i];
+        if (i > 0) {
+            if (currentElement === resultingOcurrences[i - 1]) {
+                isValidString = false;
+            }
+        }
+    }
+
+    return isValidString;
+}
+
+console.log(alternate("abaacdabd"));
+// console.log(alternate("beabeefeab"));
