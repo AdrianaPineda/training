@@ -1,17 +1,17 @@
 // Complete the jumpingOnClouds function below.
-function jumpingOnClouds(clouds, jumpLength) {
-    let energy = 100;
-    let cloudIndex = 0;
-    do {
-        cloudIndex = (cloudIndex + jumpLength) % clouds.length;
-        const cloud = clouds[cloudIndex];
-        if (cloud == 1) {
-            energy -= 2;
-        }
-        energy -= 1;
-    } while (cloudIndex != 0);
-
-    return energy;
+function jumpingOnClouds(c) {
+  const maxJumpLength = 2;
+  let index = 0;
+  let jumps = 0;
+  const lastIndex = c.length - 1;
+  while (index < lastIndex) {
+    const nextIndex = index + maxJumpLength;
+    const canJump2Clouds = nextIndex <= lastIndex && c[nextIndex] === 0;
+    index = canJump2Clouds ? nextIndex : index + 1;
+    jumps += 1;
+  }
+  return jumps;
 }
 
-console.log(jumpingOnClouds([0, 0, 1, 0, 0, 1, 1, 0], 2));
+console.log(jumpingOnClouds([0, 0, 1, 0, 0, 1, 0]));
+console.log(jumpingOnClouds([0, 0, 0, 0, 1, 0]));
