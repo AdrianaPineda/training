@@ -2,21 +2,29 @@
 //https://www.hackerrank.com/challenges/two-characters/problem
 function alternate(string) {
     const chars = string.split("");
-    const charsSet = new Set(chars);
     let largestSequence = 0;
-    charsSet.forEach(char => {
-        charsSet.forEach(secondChar => {
-            if (char === secondChar) {
-                return;
-            }
-            const sequence = buildLongestSequenceWithChars(char, secondChar, chars);
+    const uniqueCharsArray = getUniqueCharsArray(chars);
+    for (let i = 0; i < uniqueCharsArray.length - 1; i++) {
+        const char = uniqueCharsArray[i];
+        for (let j = i + 1; j < uniqueCharsArray.length; j++) {
+            const secondChar = uniqueCharsArray[j];
+            const sequence = buildLongestSequenceWithChars(
+                char,
+                secondChar,
+                chars
+            );
             if (sequence.length > largestSequence) {
                 largestSequence = sequence.length;
             }
-        });
-    });
+        }
+    }
 
     return largestSequence;
+}
+
+function getUniqueCharsArray(chars) {
+    const charsSet = new Set(chars);
+    return Array.from(charsSet);
 }
 
 function buildLongestSequenceWithChars(char1, char2, originalChars) {
