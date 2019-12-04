@@ -22,11 +22,11 @@ function isLeapYear(year) {
 }
 
 function isJulianCalendarLeapYear(year) {
-    return year % 4 === 0 ? true : false;
+    return year % 4 === 0;
 }
 
 function isGregorianCalendarLeapYear(year) {
-    return (year % 400 === 0) | (year % 4 === 0 && year % 100 !== 0) ? true : false;
+    return (year % 400 === 0) || (isJulianCalendarLeapYear(year) && year % 100 !== 0);
 }
 
 console.log(dayOfProgrammer("1800"));
