@@ -21,28 +21,31 @@ function getIceCreamCostIndexes(iceCreamCosts) {
 function getSelectedIceCreamsIndexes(money, costIndexesDict) {
     const costIndexesKeys = Object.keys(costIndexesDict);
     let chosenIndexes = [];
-    for (const costAsString of costIndexesKeys) {
-        const iceCreamCost = parseInt(costAsString);
+    for (let i = 0; i < costIndexesKeys.length && chosenIndexes.length <= 0; i++) {
+        const iceCreamCost = parseInt(costIndexesKeys[i]);
         if (iceCreamCost >= money) {
             continue;
         }
 
         const remainingMoney = money - iceCreamCost;
-
-        const areTwoIceCreamsOfSameCost = costIndexesDict[iceCreamCost].length == 2;
-        const canChooseSameCost = remainingMoney === iceCreamCost && areTwoIceCreamsOfSameCost;
-        if (canChooseSameCost) {
-            chosenIndexes = costIndexesDict[iceCreamCost];
-            break;
-        }
-
-        if (costIndexesDict[remainingMoney]) {
-            chosenIndexes = [...costIndexesDict[iceCreamCost], ...costIndexesDict[remainingMoney]];
-            break;
-        }
+        chosenIndexes = getPossibleIceCreamIndexes(iceCreamCost, remainingMoney, costIndexesDict);
     }
 
     return chosenIndexes.sort(((a, b) => a > b));
+}
+
+function getPossibleIceCreamIndexes(iceCreamCost, remainingMoney, costIndexesDict) {
+    const areTwoIceCreamsOfSameCost = costIndexesDict[iceCreamCost].length == 2;
+    const canChooseSameCost = remainingMoney === iceCreamCost && areTwoIceCreamsOfSameCost;
+    if (canChooseSameCost) {
+        return costIndexesDict[iceCreamCost];
+    }
+
+    if (costIndexesDict[remainingMoney]) {
+        return [...costIndexesDict[remainingMoney], ...costIndexesDict[iceCreamCost]];
+    }
+
+    return [];
 }
 
 console.log(icecreamParlor(4, [4, 3, 5, 1, 2]));
