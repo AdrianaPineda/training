@@ -31,7 +31,12 @@ function getSelectedIceCreamsIndexes(money, costIndexesDict) {
         chosenIndexes = getPossibleIceCreamIndexes(iceCreamCost, remainingMoney, costIndexesDict);
     }
 
-    return chosenIndexes.sort(((a, b) => a > b));
+    // Not using sort due to time complexity
+    if (chosenIndexes[0] > chosenIndexes[1]) {
+        return [chosenIndexes[1], chosenIndexes[0]];
+    }
+
+    return chosenIndexes;
 }
 
 function getPossibleIceCreamIndexes(iceCreamCost, remainingMoney, costIndexesDict) {
@@ -42,6 +47,8 @@ function getPossibleIceCreamIndexes(iceCreamCost, remainingMoney, costIndexesDic
     }
 
     if (costIndexesDict[remainingMoney]) {
+        // Exercise guarantees there is a unique solution
+        // Hence the following array will be always of length 2
         return [...costIndexesDict[remainingMoney], ...costIndexesDict[iceCreamCost]];
     }
 
