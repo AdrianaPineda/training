@@ -48,7 +48,7 @@ function getPossibleIceCreamIndexes(iceCreamCost, remainingMoney, costIndexesDic
 
     if (costIndexesDict[remainingMoney]) {
         // Exercise guarantees there is a unique solution
-        // Hence the following array will be always of length 2
+        // Hence the following array will always be of length 2
         return [...costIndexesDict[remainingMoney], ...costIndexesDict[iceCreamCost]];
     }
 
