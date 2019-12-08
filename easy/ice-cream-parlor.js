@@ -53,33 +53,3 @@ function canChooseSameIceCreamCost(costIndexesDict, currentIceCreamCost, remaini
 console.log(icecreamParlor(4, [4, 3, 5, 1, 2]));
 console.log(icecreamParlor(5, [1, 4, 5, 3, 2]));
 console.log(icecreamParlor(4, [2, 2, 4, 3]));
-
-
-
-function icecreamParlor(money, iceCreamCosts) {
-    const iceCreamsDict = {};
-    for (let i = 0; i < iceCreamCosts.length; i++) {
-        const iceCreamCost = iceCreamCosts[i];
-        const indexes = iceCreamsDict[iceCreamCost] ? iceCreamsDict[iceCreamCost] : [];
-        const oneIndex = i + 1;
-        indexes.push(oneIndex)
-        iceCreamsDict[iceCreamCost] = indexes;
-    }
-
-    const iceCreamKeys = Object.keys(iceCreamsDict);
-    for (const key of iceCreamKeys) {
-        if (key > money) {
-            continue;
-        }
-        const remainingMoney = money - key;
-        if (remainingMoney == key && iceCreamsDict[key].length == 2) {
-            return iceCreamsDict[key].sort(((a, b) => a > b));
-        }
-
-        if (iceCreamsDict[remainingMoney]) {
-            return [...iceCreamsDict[key], ...iceCreamsDict[remainingMoney]].sort(((a, b) => a > b));
-        }
-    }
-
-    return [];
-}
