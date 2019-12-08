@@ -29,7 +29,8 @@ function getSelectedIceCreamsIndexes(money, costIndexesDict) {
 
         const remainingMoney = money - iceCreamCost;
 
-        const canChooseSameCost = canChooseSameIceCreamCost(costIndexesDict, currentIceCreamCost, remainingMoney);
+        const areTwoIceCreamsOfSameCost = costIndexesDict[currentIceCreamCost].length == 2;
+        const canChooseSameCost = remainingMoney === currentIceCreamCost && areTwoIceCreamsOfSameCost
         if (canChooseSameCost) {
             chosenIndexes = costIndexesDict[iceCreamCost];
             break;
@@ -42,12 +43,6 @@ function getSelectedIceCreamsIndexes(money, costIndexesDict) {
     }
 
     return chosenIndexes.sort(((a, b) => a > b));
-}
-
-function canChooseSameIceCreamCost(costIndexesDict, currentIceCreamCost, remainingMoney) {
-    const areTwoIceCreamsOfSameCost = costIndexesDict[currentIceCreamCost].length == 2;
-    const canChooseSameCost = remainingMoney === currentIceCreamCost && areTwoIceCreamsOfSameCost;
-    return canChooseSameCost;
 }
 
 console.log(icecreamParlor(4, [4, 3, 5, 1, 2]));
