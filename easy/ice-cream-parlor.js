@@ -29,8 +29,8 @@ function getSelectedIceCreamsIndexes(money, costIndexesDict) {
 
         const remainingMoney = money - iceCreamCost;
 
-        const areTwoIceCreamsOfSameCost = costIndexesDict[currentIceCreamCost].length == 2;
-        const canChooseSameCost = remainingMoney === currentIceCreamCost && areTwoIceCreamsOfSameCost
+        const areTwoIceCreamsOfSameCost = costIndexesDict[iceCreamCost].length == 2;
+        const canChooseSameCost = remainingMoney === iceCreamCost && areTwoIceCreamsOfSameCost;
         if (canChooseSameCost) {
             chosenIndexes = costIndexesDict[iceCreamCost];
             break;
