@@ -1,4 +1,5 @@
 // Complete the countingValleys function below.
+// https://www.hackerrank.com/challenges/counting-valleys/problem
 function countingValleys(steps, path) {
 
     // U => +1
