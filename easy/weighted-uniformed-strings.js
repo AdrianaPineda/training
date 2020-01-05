@@ -11,9 +11,9 @@
 // set.has(x(i))? 'True' : 'False'
 
 // O(n) + O(m)
-function weightedUniformStrings(s, queries) {
+function weightedUniformStrings(string, queries) {
     let results = []
-    const weights = getUniformSubstringWeights(s);
+    const weights = getUniformSubstringWeights(string);
     for (let query of queries) {
         const result = weights.has(query) ? "Yes" : "No";
         results.push(result)
@@ -22,8 +22,8 @@ function weightedUniformStrings(s, queries) {
     return results;
 }
 
-function getUniformSubstringWeights(s) {
-    const chars = s.split("");
+function getUniformSubstringWeights(string) {
+    const chars = string.split("");
     const weights = new Set();
     let previousChar = "";
     let contiguousChars = 1;
