@@ -29,7 +29,7 @@ function findMissingNumbers(incompleteArrOcurrences, originalArray) {
     const missingNumbers = new Set();
     for (let number of originalArray) {
         const ocurrences = incompleteArrOcurrencesCopy[number];
-        // If dictionary doesn't have the number or if the number occurs more times in the original array
+        // If dictionary doesn't have the number or if the number occurs less times in the incomplete array
         // then we add that number as a missing number
         const isNumberMissing = !ocurrences || ocurrences <= 0;
         if (isNumberMissing) {
