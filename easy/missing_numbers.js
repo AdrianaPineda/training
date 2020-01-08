@@ -1,15 +1,15 @@
 // Complete the missingNumbers function below.
 // https://www.hackerrank.com/challenges/missing-numbers/problem
 // Big O
-// Time complexity: O(n) + O(m) => O(n)
-// Spacial complexity: O(n) + O(n) + O(m) + O(m) => O(n)
+// Time complexity: O(n) + O(m) + O(nlog(n)) => O(nlog(n))
+// Spacial complexity: O(n) + O(n) + O(m) + O(m) + O(log(n)) => O(n)
 function missingNumbers(misingNumbersArray, originalArray) {
 
     // Loop through array of missing numbers to get ocurrences
-    const numberOcurrences = getNumberOcurrences(misingNumbersArray);
+    const incompleteArrOcurrences = getNumberOcurrences(misingNumbersArray);
 
-    // Loop through original array
-    const missingNumbers = findMissingNumbers(numberOcurrences, originalArray);
+    // Loop through original array to find numbers missing from the first array
+    const missingNumbers = findMissingNumbers(incompleteArrOcurrences, originalArray);
     return missingNumbers.sort((a, b) => a - b);
 
 }
@@ -24,15 +24,22 @@ function getNumberOcurrences(array) {
     return numberOcurrences;
 }
 
-function findMissingNumbers(numberOcurrences, originalArray) {
-    const numberOcurrencesCopy = { ...numberOcurrences };
+function findMissingNumbers(incompleteArrOcurrences, originalArray) {
+    const incompleteArrOcurrencesCopy = { ...incompleteArrOcurrences };
     const missingNumbers = new Set();
     for (let number of originalArray) {
-        const ocurrences = numberOcurrencesCopy[number];
-        if (!ocurrences || (ocurrences - 1) < 0) {
+        const ocurrences = incompleteArrOcurrencesCopy[number];
+        // If dictionary doesn't have the number or if the number occurs more times in the original array
+        // then we add that number as a missing number
+        const isNumberMissing = !ocurrences || ocurrences <= 0;
+        if (isNumberMissing) {
             missingNumbers.add(number)
         }
-        numberOcurrencesCopy[number] = ocurrences - 1;
+
+        if (ocurrences) {
+            // Decrease occurrences in dictionary
+            incompleteArrOcurrencesCopy[number] = ocurrences - 1;
+        }
     }
 
     return Array.from(missingNumbers);
