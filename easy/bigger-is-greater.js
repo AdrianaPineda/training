@@ -2,48 +2,51 @@
 // https://www.hackerrank.com/challenges/bigger-is-greater/problem
 // Big O
 function biggerIsGreater(string) {
-    let finalString = "";
     for (let i = string.length - 2; i >= 0; i--) {
-        const char = string.charAt(i);
-        const charCode = char.charCodeAt(0);
+        const charCode = string.charCodeAt(i);
         let remainingChars = string.substring(i);
         let nextHighestCharIndex = getNextHighestCharIndex(charCode, remainingChars);
 
         if (nextHighestCharIndex >= 0) {
-            const secondhalfString = reorderChars(nextHighestCharIndex, remainingChars);
-            finalString = string.substring(0, i) + secondhalfString;
-            break;
+            const nextChar = remainingChars.charAt(nextHighestCharIndex);
+            const secondHalfString = remainingChars.substring(0, nextHighestCharIndex) + remainingChars.substring(nextHighestCharIndex + 1);
+            const orderedSecondHalfString = secondHalfString.split("").sort().join("");
+            const finalString = string.substring(0, i) + nextChar + orderedSecondHalfString;
+            return finalString;
         }
     }
 
-    return finalString ? finalString : "no answer";
+    return "no answer";
 }
 
 function getNextHighestCharIndex(baseValue, string) {
-    let currentHighest = Infinity;
-    let highestCharIndex = -1;
-    for (let char of string) {
+    let nextHighest = Infinity;
+    let nextHighestIndex = -1;
+    for (let i = 0; i < string.length; i++) {
+        const char = string[i]
         const charCode = char.charCodeAt(0);
-        if (charCode > baseValue && charCode < currentHighest) {
-            currentHighest = charCode;
-            highestCharIndex = string.indexOf(char);
+        if (charCode > baseValue && charCode < nextHighest) {
+            nextHighest = charCode;
+            nextHighestIndex = i;
         }
     }
 
-    return highestCharIndex;
+    return nextHighestIndex;
 }
 
-function reorderChars(nextHighestCharIndex, remainingChars) {
+function reorderChars(startIndex, string) {
     let finalString = "";
 
+    let nextHighestCharIndex = startIndex;
     while (nextHighestCharIndex >= 0) {
-        const nextChar = remainingChars.charAt(nextHighestCharIndex);
-        remainingChars = remainingChars.substring(0, nextHighestCharIndex) + remainingChars.substring(nextHighestCharIndex + 1);
+        const nextChar = string.charAt(nextHighestCharIndex);
+        string = string.substring(0, nextHighestCharIndex) + string.substring(nextHighestCharIndex + 1);
         finalString = finalString + nextChar;
-        nextHighestCharIndex = getNextHighestCharIndex(0, remainingChars);
+        nextHighestCharIndex = getNextHighestCharIndex(0, string);
     }
 
     return finalString;
+
 }
 
 
