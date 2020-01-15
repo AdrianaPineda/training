@@ -2,7 +2,7 @@
 // https://www.hackerrank.com/challenges/bigger-is-greater/problem
 // Big O
 // Time complexity: O(n^3)? + O(O(n) + O(n)? + n*log(n)) => O(n^3)
-// Spacial complexity: O(n)
+// Spacial complexity: O(n) + O(n*n)
 function biggerIsGreater(string) {
     for (let i = string.length - 2; i >= 0; i--) {
         const char = string[i];
