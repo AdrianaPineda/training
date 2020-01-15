@@ -1,17 +1,17 @@
 // Complete the biggerIsGreater function below.
 // https://www.hackerrank.com/challenges/bigger-is-greater/problem
 // Big O
+// Time complexity: O(n^3)? + O(O(n) + O(n)? + n*log(n)) => O(n^3)
+// Spacial complexity: O(n)
 function biggerIsGreater(string) {
     for (let i = string.length - 2; i >= 0; i--) {
-        const charCode = string.charCodeAt(i);
-        let remainingChars = string.substring(i);
-        let nextHighestCharIndex = getNextHighestCharIndex(charCode, remainingChars);
+        const char = string[i];
+        const charCode = char.charCodeAt(0);
+        const remainingString = string.substring(i);
 
-        if (nextHighestCharIndex >= 0) {
-            const nextChar = remainingChars.charAt(nextHighestCharIndex);
-            const secondHalfString = remainingChars.substring(0, nextHighestCharIndex) + remainingChars.substring(nextHighestCharIndex + 1);
-            const orderedSecondHalfString = secondHalfString.split("").sort().join("");
-            const finalString = string.substring(0, i) + nextChar + orderedSecondHalfString;
+        const nextBiggestString = findNextBiggestString(charCode, remainingString);
+        if (nextBiggestString) {
+            const finalString = string.substring(0, i) + nextBiggestString;
             return finalString;
         }
     }
@@ -19,13 +19,23 @@ function biggerIsGreater(string) {
     return "no answer";
 }
 
-function getNextHighestCharIndex(baseValue, string) {
+function findNextBiggestString(baseCharCode, string) {
+    const nextHighestCharIndex = getNextHighestCharIndex(baseCharCode, string);
+    if (nextHighestCharIndex >= 0) {
+        return getNextBiggestString(string, nextHighestCharIndex);
+    }
+
+    return undefined;
+}
+
+function getNextHighestCharIndex(baseCharCode, string) {
     let nextHighest = Infinity;
     let nextHighestIndex = -1;
     for (let i = 0; i < string.length; i++) {
         const char = string[i]
         const charCode = char.charCodeAt(0);
-        if (charCode > baseValue && charCode < nextHighest) {
+        const isNextHighest = charCode > baseCharCode && charCode < nextHighest;
+        if (isNextHighest) {
             nextHighest = charCode;
             nextHighestIndex = i;
         }
@@ -34,19 +44,19 @@ function getNextHighestCharIndex(baseValue, string) {
     return nextHighestIndex;
 }
 
-function reorderChars(startIndex, string) {
-    let finalString = "";
+function getNextBiggestString(string, firstCharIndex) {
+    const firstChar = string.charAt(firstCharIndex);
+    const remainingString = removeChar(string, firstCharIndex);
+    const orderedString = orderAlphabetical(remainingString);
+    return firstChar + orderedString;
+}
 
-    let nextHighestCharIndex = startIndex;
-    while (nextHighestCharIndex >= 0) {
-        const nextChar = string.charAt(nextHighestCharIndex);
-        string = string.substring(0, nextHighestCharIndex) + string.substring(nextHighestCharIndex + 1);
-        finalString = finalString + nextChar;
-        nextHighestCharIndex = getNextHighestCharIndex(0, string);
-    }
+function removeChar(string, charIndex) {
+    return string.substring(0, charIndex) + string.substring(charIndex + 1);
+}
 
-    return finalString;
-
+function orderAlphabetical(string) {
+    return string.split("").sort().join("");
 }
 
 
