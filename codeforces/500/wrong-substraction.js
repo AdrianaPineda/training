@@ -31,7 +31,7 @@ function getLastDigit(number) {
 
 function removeLastDigit(number) {
     const { numberAsString, numberLength } = getNumberStringValues(number);
-    const numberWithoutLastDigit = numberAsString.substring(0, numberLength - 1);
+    const numberWithoutLastDigit = numberAsString.slice(0, numberLength - 1);
     return parseInt(numberWithoutLastDigit);
 }
 
