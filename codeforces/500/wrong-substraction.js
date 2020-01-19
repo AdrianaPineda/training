@@ -1,3 +1,9 @@
+// https://codeforces.com/problemset/problem/977/A
+// Big O:
+// n: iterations, m: length of the string
+// Time complexity: O(n*m) => O(n)
+// Space complexity: O(n*m) => O(n)
+
 const readline = require("readline");
 
 function substract(number, iterations) {
@@ -19,17 +25,18 @@ function substract(number, iterations) {
 
 function getLastDigit(number) {
     const { numberAsString, numberLength } = getNumberStringValues(number);
-    const lastDigitAsString = numberAsString[numberLength - 1];
-    return parseInt(lastDigitAsString);
+    const lastDigit = numberAsString.charAt(numberLength - 1);
+    return parseInt(lastDigit);
 }
 
 function removeLastDigit(number) {
     const { numberAsString, numberLength } = getNumberStringValues(number);
-    return parseInt(numberAsString.slice(0, numberLength - 1));
+    const numberWithoutLastDigit = numberAsString.substring(0, numberLength - 1);
+    return parseInt(numberWithoutLastDigit);
 }
 
 function getNumberStringValues(number) {
-    const numberAsString = number.toString()
+    const numberAsString = number.toString();
     const numberLength = numberAsString.length;
     return { numberAsString, numberLength }
 }
