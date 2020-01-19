@@ -1,7 +1,8 @@
 // https://codeforces.com/problemset/problem/977/B
 // Big O:
-// Time complexity:
-// Space complexity:
+// n: length of string
+// Time complexity: O(n)
+// Space complexity: O(n)
 
 const readline = require("readline");
 
@@ -29,13 +30,14 @@ function findMostCommonGram(string, stringLength) {
 
     for (let i = 0; i < stringLength - 1; i++) {
         const twogram = string[i] + string[i + 1];
-        const occurrences = gramOccurrences[twogram] ? gramOccurrences[twogram] + 1 : 1;
-        if (occurrences > mostCommonGramOccurrences) {
+        const occurrences = gramOccurrences[twogram] ? gramOccurrences[twogram] : 0;
+        const currentOcurrences = occurrences + 1;
+        if (currentOcurrences > mostCommonGramOccurrences) {
             mostCommonGram = twogram;
-            mostCommonGramOccurrences = occurrences;
+            mostCommonGramOccurrences = currentOcurrences;
         }
 
-        gramOccurrences[twogram] = occurrences;
+        gramOccurrences[twogram] = currentOcurrences;
     }
 
     return mostCommonGram;
