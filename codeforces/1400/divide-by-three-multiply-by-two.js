@@ -4,22 +4,25 @@
 // Space complexity:
 const readline = require("readline");
 
-// // Read input
-// var rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout
-// });
+// Read input
+var rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-// let length;
-// rl.on('line', (input) => {
-//     if (length != undefined) {
-//         const numbers = input.split(" ").map(Number);
-//         console.log(findPolycarpSequence(numbers, length));
-//         rl.close();
-//     } else {
-//         length = parseInt(input);
-//     }
-// });
+let length;
+rl.on('line', (input) => {
+    if (length != undefined) {
+        console.log("asas");
+        const a = BigInt(5);
+        console.log(a);
+        const numbers = input.split(" ").map((value) => BigInt(value));
+        console.log(findPolycarpSequence(numbers, length));
+        rl.close();
+    } else {
+        length = parseInt(input);
+    }
+});
 
 function findPolycarpSequence(numbers, length) {
 
@@ -28,37 +31,33 @@ function findPolycarpSequence(numbers, length) {
     // Maps numbers to index position
     const numbersMap = {}
     numbers.forEach((value, index) => numbersMap[value] = index);
-    console.log(numbersMap);
 
-    for (let i = 0; i < length; i++) {
+    let initial = BigInt(0);
+    for (let i = 0; i < numbers.length; i++) {
         const currentNumber = numbers[i];
-        console.log(currentNumber);
-        const multipliedByTwo = currentNumber * 2;
-        console.log(multipliedByTwo);
+        const multipliedByTwo = currentNumber % BigInt(2) === BigInt(0) ? currentNumber / BigInt(2) : 0;
 
         if (multipliedByTwo > 0 && numbersMap[multipliedByTwo] >= 0) {
-            numbersOrdered[currentNumber] = multipliedByTwo;
+            numbersOrdered[multipliedByTwo] = currentNumber;
             continue;
         }
 
-        const dividedByThree = currentNumber % 3 === 0 ? currentNumber / 3 : 0;
-        console.log(dividedByThree);
+        const dividedByThree = currentNumber * BigInt(3);
         if (dividedByThree > 0 && numbersMap[dividedByThree] >= 0) {
-            console.log("enter 2");
-            numbersOrdered[currentNumber] = dividedByThree;
+            numbersOrdered[dividedByThree] = currentNumber;
             continue;
         }
 
-        // end of sequence
-        console.log("final number", currentNumber);
-        // const dividedByTwo = currentNumber % 2 === 0 ? currentNumber / 2 : 0;
-        // const multipliedByThree = currentNumber * 3;
+        initial = currentNumber;
     }
 
-    console.log(numbersOrdered);
-    return numbersOrdered;
+    let result = `${initial}`;
+    let nextNumber = numbersOrdered[BigInt(initial)];
+    while (nextNumber > 0) {
+        result = `${result} ${nextNumber}`
+        nextNumber = numbersOrdered[nextNumber] ? BigInt(numbersOrdered[nextNumber]) : 0;
+    }
+
+    return result;
 
 }
-
-// findPolycarpSequence([4, 8, 6, 3, 12, 9], 6)
-findPolycarpSequence([42, 28, 84, 126], 4);
