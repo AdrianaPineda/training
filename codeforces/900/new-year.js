@@ -1,7 +1,7 @@
 // https://codeforces.com/problemset/problem/1091/A
 // Big O:
-// Time complexity:
-// Space complexity:
+// Time complexity: O(1)
+// Space complexity: O(1)
 
 // Read input
 const readline = require("readline")
@@ -20,14 +20,13 @@ rl.on('line', (input) => {
 });
 
 function findMaxOrnaments(yellow, blue, red) {
-    const isYellowMinimum = yellow <= blue && yellow <= red
+    const minimum = Math.min(yellow, blue, red)
 
-    if (isYellowMinimum) {
+    if (minimum == yellow) {
         return findMaxWithYellowMinimum(yellow, blue, red);
     }
 
-    const isBlueMinimum = blue <= yellow && blue <= red;
-    if (isBlueMinimum) {
+    if (minimum == blue) {
         return findMaxWithBlueMinimum(yellow, blue, red);
     }
 
