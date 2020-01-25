@@ -1,7 +1,7 @@
 // https://codeforces.com/contest/977/problem/D
 // Big O:
-// Time complexity:
-// Space complexity:
+// Time complexity: O(n)
+// Space complexity: O(n)
 const readline = require("readline");
 
 // Read input
@@ -13,9 +13,6 @@ var rl = readline.createInterface({
 let length;
 rl.on('line', (input) => {
     if (length != undefined) {
-        console.log("asas");
-        const a = BigInt(5);
-        console.log(a);
         const numbers = input.split(" ").map((value) => BigInt(value));
         console.log(findPolycarpSequence(numbers, length));
         rl.close();
@@ -26,15 +23,14 @@ rl.on('line', (input) => {
 
 function findPolycarpSequence(numbers, length) {
 
-    console.log("start");
     const numbersOrdered = {}
     // Maps numbers to index position
     const numbersMap = {}
-    numbers.forEach((value, index) => numbersMap[value] = index);
+    numbers.forEach((value, index) => numbersMap[value] = BigInt(index));
 
     let initial = BigInt(0);
-    for (let i = 0; i < numbers.length; i++) {
-        const currentNumber = numbers[i];
+    for (let i = 0; i < length; i++) {
+        const currentNumber = BigInt(numbers[i]);
         const multipliedByTwo = currentNumber % BigInt(2) === BigInt(0) ? currentNumber / BigInt(2) : 0;
 
         if (multipliedByTwo > 0 && numbersMap[multipliedByTwo] >= 0) {
@@ -61,3 +57,6 @@ function findPolycarpSequence(numbers, length) {
     return result;
 
 }
+
+// console.log(findPolycarpSequence([4, 8, 6, 3, 12, 9], 6))
+// console.log(findPolycarpSequence([42, 28, 84, 126], 4));
