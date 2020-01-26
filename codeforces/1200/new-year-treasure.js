@@ -64,7 +64,7 @@ class Coordinate {
 
 function findTreasure(obelisksCoordinates, cluesCoordinates) {
     const cluesIndexes = getCluesIndexes(cluesCoordinates);
-    const firstObelisk = obelisksCoordinates[0];
+    const firstObelisk = obelisksCoordinates.shift();
 
     for (let clue of cluesCoordinates) {
         const treasureCoordinate = firstObelisk.addCoordinate(clue);
