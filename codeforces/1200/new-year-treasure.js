@@ -28,11 +28,12 @@ rl.on('line', (input) => {
 });
 
 function readCoordinates(input) {
+    const coordinate = getCoordinate(input);
     const isReadingObelisksCoordinates = obelisksCoordinates.length < numberOfObelisks;
     if (isReadingObelisksCoordinates) {
-        obelisksCoordinates.push(getCoordinate(input));
+        obelisksCoordinates.push(coordinate);
     } else {
-        cluesCoordinates.push(getCoordinate(input));
+        cluesCoordinates.push(coordinate);
     }
 }
 
