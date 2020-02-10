@@ -7,7 +7,8 @@
 
 
 def min_shots_to_kill_enemies(enemies, distance_thrown, enemies_positions):
-    sorted_positions = sorted(set(enemies_positions), key=lambda x:int(x), reverse=True)
+    sorted_positions = sorted(set(enemies_positions),
+                              key=lambda x: int(x), reverse=True)
     shots = 0
     for enemie_string in sorted_positions:
         enemie = int(enemie_string)
