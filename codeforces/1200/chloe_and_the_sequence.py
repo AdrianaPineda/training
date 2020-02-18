@@ -2,28 +2,28 @@
 
 # Problem
 # Big O:
-# Time complexity:
-# Space complexity:
+# Time complexity: O(n) n-> step
+# Space complexity: O(1)
 
 
-def sequenceLengthAtStep(step):
-    if step == 1:
+def sequenceLengthAtStep(steps):
+    if steps == 1:
         return 1
-    return sequenceLengthAtStep(step - 1) * 2 + 1
+    return sequenceLengthAtStep(steps - 1) * 2 + 1
 
 
 def elementAtPos(pos, steps):
     sequenceLength = sequenceLengthAtStep(steps)
-    element = 1
-    i = 1
-    while i < sequenceLength:
-        elementModulus = i * 2
-        if (pos - i) % elementModulus == 0:
-            return element
-        element += 1
-        i *= 2
+    integer = 1
+    firstIntegerPos = 1
+    while firstIntegerPos < sequenceLength:
+        integerModulus = firstIntegerPos * 2
+        if (pos - firstIntegerPos) % integerModulus == 0:
+            return integer
+        integer += 1
+        firstIntegerPos *= 2
 
-    return -1
+    return integer
 
 
 # Read input
