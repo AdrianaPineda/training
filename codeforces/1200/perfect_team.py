@@ -1,8 +1,8 @@
 # https://codeforces.com/problemset/problem/1221/C
 # Problem
 # Big O:
-# Time complexity: O(1)
-# Space complexity: O(1)
+# Time complexity: O(1) (doesn't take into account input reading)
+# Space complexity: O(1) (doesn't take into account input reading)
 members_per_team = 3
 
 
