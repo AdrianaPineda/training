@@ -1,38 +1,35 @@
 # https://codeforces.com/problemset/problem/1285/B
 # Problem
 # Big O:
-# Time complexity:
-# Space complexity:
+# Time complexity: O(n)
+# Space complexity: O(n)
+
+from functools import reduce
+
+
+def is_tastiness_greater_or_equal_than(cupcakes_tastiness, tastiness_to_compare):
+    total_tastiness = 0
+    for tastiness in cupcakes_tastiness:
+        total_tastiness += tastiness
+        if total_tastiness >= tastiness_to_compare:
+            return True
+
+    return False
 
 
 def will_yasser_be_happy(cupcakes_tastiness):
-    number_of_cupcakes = len(cupcakes_tastiness)
-    max_column = 0
-    max_tastiness = cupcakes_tastiness[0]
-    tastiness = [cupcakes_tastiness[0]]
-    for i in range(1, number_of_cupcakes):
-        previous_tastiness = tastiness[i-1]
-        current_tastiness = cupcakes_tastiness[i] + previous_tastiness
-        tastiness.append(current_tastiness)
-        if current_tastiness > max_tastiness and i < (number_of_cupcakes - 1):
-            max_tastiness = current_tastiness
-            max_column = i
+    yasser_tastiness = reduce((lambda x, y: x + y), cupcakes_tastiness)
 
-    yasser_tastiness = tastiness[i]
-    if max_tastiness >= yasser_tastiness:
-        return "NO"
+    cupcakes_tastiness_without_last = cupcakes_tastiness[:-1]
+    if is_tastiness_greater_or_equal_than(cupcakes_tastiness_without_last, yasser_tastiness):
+        return False
 
-    new_max = 0
-    new_tastiness = []
-    new_tastiness.append(tastiness[i])
-    for i in range(1, number_of_cupcakes):
-        previous_tastiness = new_tastiness[i-1]
-        current_tastiness = new_tastiness[i-1] - cupcakes_tastiness[i - 1]
-        new_tastiness.append(current_tastiness)
-        if current_tastiness >= yasser_tastiness:
-            return "NO"
+    cupcakes_tastiness_reversed = cupcakes_tastiness[::-1]  # ::-1 for reverse
+    cupcakes_tastiness_reverse_without_last = cupcakes_tastiness_reversed[:-1]
+    if is_tastiness_greater_or_equal_than(cupcakes_tastiness_reverse_without_last, yasser_tastiness):
+        return False
 
-    return "YES"
+    return True
 
 
 # Read input
@@ -44,4 +41,4 @@ for i in range(0, test_cases):
     responses.append(will_yasser_be_happy(cupcakes_tastiness))
 
 for response in responses:
-    print(response)
+    print("YES" if response else "NO")
