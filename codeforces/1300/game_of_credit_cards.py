@@ -1,43 +1,41 @@
 # https://codeforces.com/problemset/problem/777/B
 # Problem
 # Big O:
-# Time complexity:
-# Space complexity:
+# Time complexity: O(n log (n)) + 2*(O(n) + O(n))*O(k) = O(n)*O(k)
+# Space complexity: 3*O(n) = O(n)
 
 # Problem
 
 
-def find_value_greater_or_equal_than(list, number):
-    for i in range(0, len(list)):
-        element = list[i]
+def value_index_greater_or_equal_than(ordered_list, number):
+    for i in range(0, len(ordered_list)):
+        element = ordered_list[i]
         if element >= number:
             return i
     return -1
 
 
-def solve(number_of_digits, sherlocks_card, moriartys_card):
+def flicks(sherlocks_card, sorted_moriarty_card, prefer_flicks):
     moriartys_flicks = 0
     sherlocks_flicks = 0
-    moriartys_card.sort()
-    sorted_moriarty_card = moriartys_card.copy()
-    sorted_moriarty_card_alt = moriartys_card.copy()
 
     for digit in sherlocks_card:
-        minimum_index = find_value_greater_or_equal_than(
-            sorted_moriarty_card, digit)
+        increment = 1 if prefer_flicks else 0
+        minimum_index = value_index_greater_or_equal_than(
+            sorted_moriarty_card, digit + increment)
         if (minimum_index >= 0):
+            sherlocks_flicks += 1
             sorted_moriarty_card.pop(minimum_index)
         else:
             moriartys_flicks += 1
             sorted_moriarty_card.pop(0)
+    return moriartys_flicks, sherlocks_flicks
 
-        minimum_index_alt = find_value_greater_or_equal_than(
-            sorted_moriarty_card_alt, digit + 1)
-        if (minimum_index_alt >= 0):
-            sherlocks_flicks += 1
-            sorted_moriarty_card_alt.pop(minimum_index_alt)
-        else:
-            sorted_moriarty_card_alt.pop(0)
+
+def solve(number_of_digits, sherlocks_card, moriartys_card):
+    moriartys_card.sort()
+    moriartys_flicks, _ = flicks(sherlocks_card, moriartys_card.copy(), False)
+    _, sherlocks_flicks = flicks(sherlocks_card, moriartys_card.copy(), True)
 
     return moriartys_flicks, sherlocks_flicks
 
