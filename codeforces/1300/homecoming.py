@@ -1,10 +1,15 @@
 # https://codeforces.com/problemset/problem/1315/B
 # Problem
 # Big O:
-# Time complexity:
-# Space complexity:
+# Time complexity: O(n) + O(n) => O(n)
+# Space complexity: O(n-1) => O(n)
 
 # Problem
+
+# Solution:
+# 1) Iterate over crossroad char array and detect indexes at which the crossroad changed.
+# 2) Iterate over array returned in step 1 backwards, determine the cost based on the crossroad type
+#    and stop when the cost is greater or equal than the budget
 
 
 def crossroad_station_cost(crossroad, bus_ticket, tram_ticket):
@@ -13,40 +18,40 @@ def crossroad_station_cost(crossroad, bus_ticket, tram_ticket):
     return tram_ticket
 
 
-# def next_crossroad(crossroad):
-#     if crossroad == "A":
-#         return "B"
-#     return "A"
-
-
-def find_closest_road_index(bus_ticket, tram_ticket, budget, crossroads):
+def get_crossroad_change_indexes(crossroads):
     crossroads_length = len(crossroads)
-    i = 0
     current_crossroad = crossroads[0]
-    crossroad_changes = [i]
-    i += 1
+    crossroad_change_indexes = [0]
+    i = 1
     while (i < crossroads_length - 1):
         if crossroads[i] != current_crossroad:
             current_crossroad = crossroads[i]
-            crossroad_changes.append(i)
+            crossroad_change_indexes.append(i)
         i += 1
+    return crossroad_change_indexes
 
-    crossroad_changes_length = len(crossroad_changes)
+
+def find_closest_road_index(bus_ticket, tram_ticket, budget, crossroads):
     cost = 0
-    cost_change_index = crossroads_length - 1
-    j = crossroad_changes_length - 1
+
+    crossroads_length = len(crossroads)
+    crossroad_change_index = crossroads_length - 1
+
+    crossroad_change_indexes = get_crossroad_change_indexes(crossroads)
+    j = len(crossroad_change_indexes) - 1
 
     while cost <= budget and j >= 0:
-        crossroad_changes_value = crossroad_changes[j]
-        last_crossroad = crossroads[crossroad_changes_value]
+        crossroad_index = crossroad_change_indexes[j]
+        current_crossroad = crossroads[crossroad_index]
         current_cost = crossroad_station_cost(
-            last_crossroad, bus_ticket, tram_ticket)
+            current_crossroad, bus_ticket, tram_ticket)
         cost += current_cost
         if (cost <= budget):
-            cost_change_index = crossroad_changes[j]
+            crossroad_change_index = crossroad_index
         j -= 1
 
-    return cost_change_index + 1
+    # Adding 1 as response needs to take into account first crossroad is at index 1
+    return crossroad_change_index + 1
 
 
 # Read input
