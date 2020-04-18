@@ -24,7 +24,7 @@ class Solution(object):
         response = len(nums)
         for i in range(1, len(nums)):
             previous_number = nums[i-1]
-            if previous_number >= nums[i]:
+            if nums[i] <= previous_number:
                 next_number_index = self.getNextNumberIndex(nums, i-1)
                 if next_number_index != -1:
                     nums[i] = nums[next_number_index]
