@@ -1,8 +1,8 @@
-# <url>
+# https://leetcode.com/explore/interview/card/top-interview-questions-easy/92/array/646/
 # Problem
 # Big O:
-# Time complexity:
-# Space complexity:
+# Time complexity: O(n)
+# Space complexity: O(1)
 
 # Problem
 
