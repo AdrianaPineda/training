@@ -36,6 +36,31 @@ func makeAnagram(a: String, b: String) -> Int {
 
 }
 
+func makeAnagram_v2(a: String, b: String) -> Int {
+
+    // Build a chars occurrences dictionary
+    var aDict = getCharOcurrencesDict(string: a)
+
+    // Loop over b chars
+    var charsToRemoveFromB = 0
+    var charsToKeepFromB = 0
+    for char in b {
+        if let count = aDict[char], count > 0 {
+            aDict[char] = (count - 1)
+            charsToKeepFromB += 1
+        } else {
+            charsToRemoveFromB += 1
+        }
+    }
+
+    let aCharCount = a.count // This line might cost O(a) time, complexity won't change but it will most likely take more time. Hence the "makeAnagram" method above is preferred
+    let charsToRemoveFromA = (aCharCount - charsToKeepFromB)
+    let totalCharsToRemove = charsToRemoveFromA + charsToRemoveFromB
+
+    return totalCharsToRemove
+
+}
+
 func getCharOcurrencesDict(string: String) -> [Character: Int] {
     var charDict:[Character: Int] = [:]
     for char in string {
