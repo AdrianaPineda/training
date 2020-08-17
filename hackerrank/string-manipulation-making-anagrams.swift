@@ -14,10 +14,10 @@ func makeAnagram(a: String, b: String) -> Int {
     // Get chars in "b" that match chars in "a"
     let charsToKeepFromB = getChars(fromString: b, thatAppearInDict: aCharOcurrencesDict)
 
-    let aCharCount = a.count // This line might cost O(a) time and it will most likely take more time, but the complexity won't change.
-    let bCharCount = b.count // This line might cost O(a) time and it will most likely take more time, but the complexity won't change.
+    let aCharCount = a.count // This line might cost O(a) time and it will most likely make the method take more time, but the complexity won't change.
+    let bCharCount = b.count // This line might cost O(b) time and it will most likely make the method take more time, but the complexity won't change.
     let charsToRemoveFromB = bCharCount - charsToKeepFromB
-    let charsToRemoveFromA = (aCharCount - charsToKeepFromB)
+    let charsToRemoveFromA = aCharCount - charsToKeepFromB
     let totalCharsToRemove = charsToRemoveFromA + charsToRemoveFromB
 
     return totalCharsToRemove
