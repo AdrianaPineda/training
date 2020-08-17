@@ -1,7 +1,7 @@
 //
 // Problem: https://www.hackerrank.com/challenges/mark-and-toys/problem?h_l=interview&playlist_slugs%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D=sorting
 // Big O:
-// Time complexity: O(n)
+// Time complexity: O(n*log(n) + n) => O(n*log(n))
 // Space complexity: O(n)
 
 // Problem
