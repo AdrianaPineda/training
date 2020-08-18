@@ -19,7 +19,7 @@ func minimumAbsoluteDifference(arr: [Int]) -> Int {
     return minimumDifference
 }
 
-// The following solution gave me timeout
+// The following solution yields timeout
 // Time complexity: O(n^2/2) => O(n^2)
 // Space complexity: O(1)
 func minimumAbsoluteDifference_v1(arr: [Int]) -> Int {
