@@ -131,3 +131,11 @@ func findTriplets(arr: [Int], valuesIndexes:[Int: [Int]]) -> Int {
     }
     return counter
 }
+
+print(maxInversions(arr: [15, 10, 1, 7, 8])) // 3
+print(maxInversions(arr: [8, 6, 1, 4, 5])) // 3
+print(maxInversions(arr: [8, 6, 1, 4, 2, 5])) // 6
+print(maxInversions(arr: [5, 3, 4, 2, 1])) // 7
+print(maxInversions(arr: [4, 2, 2, 1])) // 2
+print(maxInversions(arr: [10, 15, 5, 1, 8, 3, 4, 2, 1])) // 40
+print(maxInversions(arr: [615, 368, 260, 115, 944, 873, 353, 893, 961, 333, 527, 803, 474, 143, 469, 555, 918, 378, 147, 488, 349, 899, 191, 566, 695, 253, 741, 191, 903, 105, 363, 164, 749, 835, 181, 334, 212, 379, 859, 358, 869, 714, 318, 815, 730, 501, 760, 856, 411, 931])) // 2635
