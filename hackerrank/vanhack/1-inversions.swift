@@ -1,31 +1,3 @@
-/*
- * Complete the 'maxInversions' function below.
- *
- * The function is expected to return a LONG_INTEGER.
- * The function accepts INTEGER_ARRAY arr as parameter.
- */
-
-// TIMEOUT -> Complexity O(n^3)
-func maxInversions_v1(arr: [Int]) -> Int {
-    print("counter \(arr.count)")
-    var counter = 0
-
-    for i in 0..<(arr.count - 2) {
-        let firstValue = arr[i]
-        for j in (i+1)..<(arr.count - 1) {
-            let secondValue = arr[j]
-            for k in (j+1)..<arr.count {
-                let thirdValue = arr[k]
-                if firstValue > secondValue && secondValue > thirdValue {
-                    counter += 1
-                }
-            }
-        }
-    }
-    return counter
-}
-
-// SUCCESSFUL
 // MAX INVERSIONS
 ///
 /// This methods finds all the possible inversions within a given array
