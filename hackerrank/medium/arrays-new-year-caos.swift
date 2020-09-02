@@ -1,8 +1,8 @@
 //
 // Problem: https://www.hackerrank.com/challenges/new-year-chaos/problem?h_l=interview&playlist_slugs%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D=arrays
 // Big O:
-// Time complexity:
-// Space complexity:
+// Time complexity: O(n^2)
+// Space complexity: O(n)
 
 // Complete the minimumBribes function below.
 func minimumBribes(q: [Int]) -> Void {
@@ -36,25 +36,15 @@ func minimumBribes(q: [Int]) -> Void {
 
 }
 
+// In order to avoid increasing complexity, I'm using `inout` params
 func swapPeopleInQueue(q: inout [Int], passes: Int, bribes: inout Int, bribesDict: inout [Int: Int]) -> Bool? {
     var iterationWithBribes = false
 
     for i in 0..<(q.count - 1) {
 
-        let shouldSwitch = shouldSwitchCurrentAndNextPositions(q: q, i: i, passes: passes)
-        if shouldSwitch {
-            // Check for previous bribes
-            let currentVal = q[i]
-            let currentBribes = bribesDict[currentVal] ?? 0
-            if currentBribes >= 2 { // Maximum number of bribes per person reached
-                return nil
-            }
-
-            // Switch positions
-            q[i] = q[i + 1]
-            q[i + 1] = currentVal
-            bribes += 1
-            bribesDict[currentVal] = currentBribes + 1
+        let peopleSwapSuccessful = swapPeopleAtPosIfNeeded(q: &q, pos: i, passes: passes, bribes: &bribes, bribesDict: &bribesDict)
+        if !peopleSwapSuccessful {
+             return nil
         }
 
         if isCurrentOrNextValueInWrongOrder(q: q, pos: i) {
@@ -63,6 +53,27 @@ func swapPeopleInQueue(q: inout [Int], passes: Int, bribes: inout Int, bribesDic
     }
 
     return iterationWithBribes
+}
+
+func swapPeopleAtPosIfNeeded(q: inout [Int], pos: Int, passes: Int, bribes: inout Int, bribesDict: inout [Int: Int]) -> Bool {
+    let shouldSwitch = shouldSwitchCurrentAndNextPositions(q: q, i: pos, passes: passes)
+
+    if shouldSwitch {
+        // Check for previous bribes
+        let currentVal = q[pos]
+        let currentBribes = bribesDict[currentVal] ?? 0
+        if currentBribes >= 2 { // Maximum number of bribes per person reached
+            return false
+        }
+
+        // Switch positions
+        q[pos] = q[pos + 1]
+        q[pos + 1] = currentVal
+        bribes += 1
+        bribesDict[currentVal] = currentBribes + 1
+    }
+
+    return true
 }
 
 func shouldSwitchCurrentAndNextPositions(q: [Int], i: Int, passes: Int) -> Bool {
