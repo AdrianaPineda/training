@@ -13,30 +13,11 @@ func minimumBribes(q: [Int]) -> Void {
     var passes = 0
     var caotic = false
 
-    while(!caotic && bribesInQueue) {
+    while(bribesInQueue) {
 
-        var iterationWithBribes = false
-        for i in 0..<(q.count - 1) {
-
-            let shouldSwitch = shouldSwitchCurrentAndNextPositions(q: newQ, i: i, passes: passes)
-            if shouldSwitch {
-                let currentVal = newQ[i]
-                let currentBribes = bribesDict[currentVal] ?? 0
-                if currentBribes >= 2 { // Maximum number of bribes per person reached
-                    caotic = true
-                    break
-                }
-
-                // Switch positions
-                newQ[i] = newQ[i + 1]
-                newQ[i + 1] = currentVal
-                bribes += 1
-                bribesDict[currentVal] = currentBribes + 1
-            }
-
-            if isCurrentOrNextValueInWrongOrder(q: newQ, pos: i) {
-                iterationWithBribes = true
-            }
+        guard let iterationWithBribes = swapPeopleInQueue(q: &newQ, passes: passes, bribes: &bribes, bribesDict: &bribesDict) else {
+            caotic = true
+            break
         }
 
         // If last iteration didn't have any bribes, we can finish the while loop
@@ -53,6 +34,35 @@ func minimumBribes(q: [Int]) -> Void {
         print(bribes)
     }
 
+}
+
+func swapPeopleInQueue(q: inout [Int], passes: Int, bribes: inout Int, bribesDict: inout [Int: Int]) -> Bool? {
+    var iterationWithBribes = false
+
+    for i in 0..<(q.count - 1) {
+
+        let shouldSwitch = shouldSwitchCurrentAndNextPositions(q: q, i: i, passes: passes)
+        if shouldSwitch {
+            // Check for previous bribes
+            let currentVal = q[i]
+            let currentBribes = bribesDict[currentVal] ?? 0
+            if currentBribes >= 2 { // Maximum number of bribes per person reached
+                return nil
+            }
+
+            // Switch positions
+            q[i] = q[i + 1]
+            q[i + 1] = currentVal
+            bribes += 1
+            bribesDict[currentVal] = currentBribes + 1
+        }
+
+        if isCurrentOrNextValueInWrongOrder(q: q, pos: i) {
+            iterationWithBribes = true
+        }
+    }
+
+    return iterationWithBribes
 }
 
 func shouldSwitchCurrentAndNextPositions(q: [Int], i: Int, passes: Int) -> Bool {
