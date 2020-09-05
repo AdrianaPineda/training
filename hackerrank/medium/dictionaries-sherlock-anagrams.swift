@@ -1,7 +1,7 @@
 // https://www.hackerrank.com/challenges/sherlock-and-anagrams/problem?h_l=interview&playlist_slugs%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D=dictionaries-hashmaps
 // Big O:
-// Time complexity:
-// Space complexity:
+// Time complexity: O(n^3*log(n))
+// Space complexity: O(n^2)
 func sherlockAndAnagrams(s: String) -> Int {
     let substringOcurrences =  getSubstringOcurrences(s: s)
     return countAnagrams(ocurrences: substringOcurrences) // O(n)
@@ -12,8 +12,8 @@ func getSubstringOcurrences(s: String) -> [String: Int] {
     let stringLength = s.count
     var counter = stringLength - 1
     var substringOcurrences = [String: Int]()
-    while (counter > 0) {
-        for i in 0...counter {
+    while (counter > 0) { // O(n)
+        for i in 0...counter { // O(n)
             let range = i..<(stringLength - counter + i)
             let substring = getOrderedSubstring(fromArray: stringArray, inRange: range)
             substringOcurrences[substring] = (substringOcurrences[substring] ?? 0) + 1
@@ -28,8 +28,8 @@ func getSubstringOcurrences(s: String) -> [String: Int] {
 func getOrderedSubstring(fromArray array:[Character], inRange range:Range<Int>) -> String {
     let substringSlice = array[range]
     let substringArray = Array(substringSlice).map{String($0)}
-    let orderedSubstringArray = substringArray.sorted()
-    let orderedSubstring = orderedSubstringArray.joined()
+    let orderedSubstringArray = substringArray.sorted() // O(n*log(n))
+    let orderedSubstring = orderedSubstringArray.joined() // O(n)
     return orderedSubstring
 }
 
