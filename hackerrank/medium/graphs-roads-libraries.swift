@@ -2,7 +2,7 @@
 // Big O:
 // Time complexity: O(n)
 // Space complexity: O(n)
-// Timeouts in Swift, but not in js
+// Timeouts in Swift, but not in js (see graphs-roads-libraries.js)
 // Complete the roadsAndLibraries function below.
 func roadsAndLibraries(n: Int, c_lib: Int, c_road: Int, cities: [[Int]]) -> Int {
     if c_lib < c_road { // If library cost is cheaper, we should build libraries in each city
