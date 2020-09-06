@@ -13,10 +13,10 @@ struct RepairCost {
 
 struct RepairCityInfo {
     var city: Int
-    var libraryCost: Int
-    var roadCost: Int
     var citiesCost: CitiesCost
     var landGraph: LandGraph
+    var libraryCost: Int
+    var roadCost: Int
 }
 
 func roadsAndLibraries(n: Int, c_lib: Int, c_road: Int, cities: [[Int]]) -> Int {
@@ -31,7 +31,7 @@ func getRepairCost(totalCities: Int, libraryCost: Int, roadCost: Int, landGraph:
 
     while currentCity <= totalCities {
 
-        let repairCityInfo = RepairCityInfo(city: currentCity, libraryCost: libraryCost, roadCost: roadCost, citiesCost: citiesCost, landGraph: landGraph)
+        let repairCityInfo = RepairCityInfo(city: currentCity, citiesCost: citiesCost, landGraph: landGraph, libraryCost: libraryCost, roadCost: roadCost)
         let (cityCost, citiesCostUpdated) = repairCity(info: repairCityInfo)
         cost += cityCost
         citiesCost = citiesCostUpdated
@@ -43,29 +43,36 @@ func getRepairCost(totalCities: Int, libraryCost: Int, roadCost: Int, landGraph:
 }
 
 func repairCity(info: RepairCityInfo) -> (Int, CitiesCost) {
-    let city = info.city
     var citiesCostUpdated = info.citiesCost
     var currentCost = 0
 
-    if info.citiesCost[city] == nil {
-        citiesCostUpdated[city] = info.libraryCost
+    if info.citiesCost[info.city] == nil {
+        citiesCostUpdated[info.city] = info.libraryCost
         currentCost += info.libraryCost
     }
 
-    guard let nodes = info.landGraph[city] else {
+    let updatedInfo = RepairCityInfo(city: info.city, citiesCost: citiesCostUpdated, landGraph: info.landGraph, libraryCost: info.libraryCost, roadCost: info.roadCost)
+    return getCityNodesRepairCost(info: updatedInfo)
+}
+
+func getCityNodesRepairCost(info: RepairCityInfo) -> (Int, CitiesCost) {
+    var citiesCostUpdated = info.citiesCost
+    var currentCost = 0
+
+    guard let nodes = info.landGraph[info.city] else {
         return (currentCost, citiesCostUpdated)
     }
 
     for node in nodes {
-        let cityCost = getCityRepairCost(libraryCost: info.libraryCost, roadCost: info.roadCost, citiesCost: info.citiesCost, currentCity: node)
-        citiesCostUpdated[node] = cityCost.updated
-        currentCost += (cityCost.updated - cityCost.previous)
+        let cityRepairCost = getCityRepairCost(currentCity: node, citiesCost: info.citiesCost, libraryCost: info.libraryCost, roadCost: info.roadCost)
+        citiesCostUpdated[node] = cityRepairCost.updated
+        currentCost += (cityRepairCost.updated - cityRepairCost.previous)
     }
 
     return (currentCost, citiesCostUpdated)
 }
 
-func getCityRepairCost(libraryCost: Int, roadCost: Int, citiesCost: CitiesCost, currentCity: Int) -> RepairCost {
+func getCityRepairCost(currentCity: Int, citiesCost: CitiesCost, libraryCost: Int, roadCost: Int) -> RepairCost {
     let currentCost = min(libraryCost, roadCost)
     let previousCost = citiesCost[currentCity] ?? 0
     let newCost = previousCost > 0 ? min(currentCost, previousCost) : currentCost
