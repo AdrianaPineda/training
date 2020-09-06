@@ -29,15 +29,16 @@ function getLandGraph(cities) {
         let citiesPair = cities[i]
         let firstCity = citiesPair[0]
         let secondCity = citiesPair[1]
-        var firstCityAdjacentCities = graph[firstCity] || []
-        firstCityAdjacentCities.push(secondCity)
-        graph[firstCity] = firstCityAdjacentCities
-
-        var secondCityAdjacentCities = graph[secondCity] || []
-        secondCityAdjacentCities.push(firstCity)
-        graph[secondCity] = secondCityAdjacentCities
+        graph[firstCity] = getAdjancentCities(firstCity, secondCity, graph)
+        graph[secondCity] = getAdjancentCities(secondCity, firstCity, graph)
     }
     return graph
+}
+
+function getAdjancentCities(city, adjacentCity, graph) {
+    let adjacentCities = graph[city] || []
+    adjacentCities.push(adjacentCity)
+    return adjacentCities
 }
 
 function dfs(visitedCities, landGraph, city) {

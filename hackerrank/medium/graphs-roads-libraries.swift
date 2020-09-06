@@ -1,94 +1,69 @@
 // https://www.hackerrank.com/challenges/torque-and-development/problem?h_l=interview&playlist_slugs%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D=graphs
 // Big O:
-// Time complexity: O(n^2)
+// Time complexity: O(n)
 // Space complexity: O(n)
+// Timeouts in Swift, but not in js
 // Complete the roadsAndLibraries function below.
-typealias LandGraph = [Int: [Int]]
-typealias CitiesCost = [Int: Int]
-
-struct RepairCost {
-    var previous: Int
-    var updated: Int
-}
-
-struct CityInfo {
-    var city: Int
-    var citiesCost: CitiesCost
-    var landGraph: LandGraph
-    var libraryCost: Int
-    var roadCost: Int
-}
-
 func roadsAndLibraries(n: Int, c_lib: Int, c_road: Int, cities: [[Int]]) -> Int {
     if c_lib < c_road { // If library cost is cheaper, we should build libraries in each city
         return n * c_lib
     }
-    let graph = getLandGraph(cities: cities) // O(n)
-    return getRepairCost(totalCities: n, libraryCost: c_lib, roadCost: c_road, landGraph: graph)
-}
 
-func getRepairCost(totalCities: Int, libraryCost: Int, roadCost: Int, landGraph: LandGraph) -> Int {
-    var citiesCost = [Int: Int]()
-    var cost = 0
-    var currentCity = 1
+    let landGraph = getLandGraph(cities: cities) // O(n) worst case
 
-    while currentCity <= totalCities { // O(n)
-
-        if citiesCost[currentCity] == nil { // If there are no smaller nodes reaching the current city, a new library needs to be built
-            citiesCost[currentCity] = libraryCost
-            cost += libraryCost
+    var visitedCities = Set<Int>()
+    var isles = 0
+    var roads = 0
+    for currentCity in 1...n { // O(n)
+        if visitedCities.contains(currentCity) {
+            continue
         }
 
-        let cityInfo = CityInfo(city: currentCity, citiesCost: citiesCost, landGraph: landGraph, libraryCost: libraryCost, roadCost: roadCost)
-        let (cityCost, citiesCostUpdated) = getCityNodesRepairCost(info: cityInfo)
-
-        cost += cityCost
-        citiesCost = citiesCostUpdated
-
-        currentCity += 1
+        isles += 1
+        let counter = dfs(visitedCities: &visitedCities, landGraph: landGraph, city: currentCity)
+        roads += (counter - 1)
     }
 
-    return cost
+    return isles * c_lib + roads * c_road
 }
 
-func getCityNodesRepairCost(info: CityInfo) -> (Int, CitiesCost) {
-    var citiesCostUpdated = info.citiesCost
-    var currentCost = 0
+func dfs(visitedCities: inout Set<Int>, landGraph: [Int: Set<Int>], city: Int) -> Int {
+    visitedCities.insert(city)
 
-    guard let nodes = info.landGraph[info.city] else {
-        return (currentCost, citiesCostUpdated)
+    var counter = 1
+    guard let accessibleCities = landGraph[city] else {
+        return counter
     }
 
-    for node in nodes { // O(n-1)
-        let cityRepairCost = getCityRepairCost(currentCity: node, citiesCost: info.citiesCost, libraryCost: info.libraryCost, roadCost: info.roadCost)
-        citiesCostUpdated[node] = cityRepairCost.updated
-        currentCost += (cityRepairCost.updated - cityRepairCost.previous)
+    for adjacentCity in accessibleCities {
+        if visitedCities.contains(adjacentCity) {
+            continue
+        }
+        counter += dfs(visitedCities: &visitedCities, landGraph: landGraph, city: adjacentCity)
     }
 
-    return (currentCost, citiesCostUpdated)
+    return counter
 }
 
-func getCityRepairCost(currentCity: Int, citiesCost: CitiesCost, libraryCost: Int, roadCost: Int) -> RepairCost {
-    let currentCost = min(libraryCost, roadCost)
-    let previousCost = citiesCost[currentCity] ?? 0
-    let newCost = previousCost > 0 ? min(currentCost, previousCost) : currentCost
-    return RepairCost(previous: previousCost, updated: newCost)
-}
-
-func getLandGraph(cities: [[Int]]) -> LandGraph {
-    var graph = [Int: [Int]]()
+func getLandGraph(cities: [[Int]]) -> [Int: Set<Int>] {
+    var graph = [Int: Set<Int>]()
 
     for citiesPair in cities {
         let firstCity = citiesPair[0]
         let secondCity = citiesPair[1]
-        let smallerCity = min(firstCity, secondCity)
-        let greaterCity = max(firstCity, secondCity)
-        var currentConnectedNodes = graph[smallerCity] ?? []
-        currentConnectedNodes.append(greaterCity)
-        graph[smallerCity] = currentConnectedNodes
+        graph[firstCity] = getAdjancentCities(city: firstCity, adjacentCity: secondCity, graph: graph)
+        graph[secondCity] = getAdjancentCities(city: secondCity, adjacentCity: firstCity, graph: graph)
     }
     return graph
 }
 
-print(roadsAndLibraries(n: 3, c_lib: 2, c_road: 1, cities: [[1, 2], [3, 1], [2, 3]]))
-print(roadsAndLibraries(n: 6, c_lib: 2, c_road: 5, cities: [[1, 3], [3, 4], [2, 4], [1, 2], [2, 3], [5, 6]]))
+func getAdjancentCities(city: Int, adjacentCity: Int, graph: [Int: Set<Int>]) -> Set<Int> {
+    var adjacentCities = graph[city] ?? Set<Int>()
+    adjacentCities.insert(adjacentCity)
+    return adjacentCities
+}
+
+print(roadsAndLibraries(n: 3, c_lib: 2, c_road: 1, cities: [[1, 2], [3, 1], [2, 3]])) // 4
+print(roadsAndLibraries(n: 6, c_lib: 2, c_road: 5, cities: [[1, 3], [3, 4], [2, 4], [1, 2], [2, 3], [5, 6]])) // 12
+print(roadsAndLibraries(n: 5, c_lib: 6, c_road: 1, cities: [[1, 2], [1, 3], [1, 4], [2, 4]])) // 15
+print(roadsAndLibraries(n: 4, c_lib: 6, c_road: 1, cities: [[1, 4], [2, 3], [3, 4]])) // 9
