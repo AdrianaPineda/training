@@ -60,19 +60,14 @@ func getCityNodesRepairCost(info: CityInfo) -> (Int, CitiesCost) {
     }
 
     for node in nodes { // O(n-1)
-        let cityRepairCost = getCityRepairCost(currentCity: node, citiesCost: info.citiesCost, libraryCost: info.libraryCost, roadCost: info.roadCost)
-        citiesCostUpdated[node] = cityRepairCost.updated
-        currentCost += (cityRepairCost.updated - cityRepairCost.previous)
+        guard let citiesCostUpdated[node] else { // If the node is reachable by another city, we ignore it
+            citiesCostUpdated[node] = min(info.libraryCost, info.roadCost)
+            currentCost += citiesCostUpdated[node]
+            continue
+        }
     }
 
     return (currentCost, citiesCostUpdated)
-}
-
-func getCityRepairCost(currentCity: Int, citiesCost: CitiesCost, libraryCost: Int, roadCost: Int) -> RepairCost {
-    let currentCost = min(libraryCost, roadCost)
-    let previousCost = citiesCost[currentCity] ?? 0
-    let newCost = previousCost > 0 ? min(currentCost, previousCost) : currentCost
-    return RepairCost(previous: previousCost, updated: newCost)
 }
 
 func getLandGraph(cities: [[Int]]) -> LandGraph {
