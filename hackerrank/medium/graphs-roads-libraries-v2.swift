@@ -60,9 +60,10 @@ func getCityNodesRepairCost(info: CityInfo) -> (Int, CitiesCost) {
     }
 
     for node in nodes { // O(n-1)
-        guard let citiesCostUpdated[node] else { // If the node is reachable by another city, we ignore it
-            citiesCostUpdated[node] = min(info.libraryCost, info.roadCost)
-            currentCost += citiesCostUpdated[node]
+        guard let _ = citiesCostUpdated[node] else { // If the node is reachable by another city, we ignore it
+            let cost = min(info.libraryCost, info.roadCost)
+            citiesCostUpdated[node] = cost
+            currentCost += cost
             continue
         }
     }
