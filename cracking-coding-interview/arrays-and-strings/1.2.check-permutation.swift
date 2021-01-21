@@ -1,6 +1,6 @@
 // Given two strings, write a method to decide if one is a permutation of the other
 
-// 1) Without additional data structures
+// 1) Without additional data structures - Sorting the strings
 // Time complexity: O(n*log(n))
 // Space complexity: O(n)
 func isPermutation(stringA: String, stringB: String) -> Bool {
@@ -20,6 +20,17 @@ func isPermutation(stringA: String, stringB: String) -> Bool {
     }
 
     return true
+}
+
+func isPermutationAlt(stringA: String, stringB: String) -> Bool {
+    if stringA.count != stringB.count {
+        return false
+    }
+
+    let sortedStringA = stringA.sorted() // O(n*log(n))
+    let sortedStringB = stringB.sorted() // O(n*log(n))
+
+    return sortedStringA.elementsEqual(sortedStringB)
 }
 
 // 1) With a hash table
