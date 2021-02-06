@@ -5,7 +5,6 @@
 // Time complexity: O(n)
 // Space complexity: O(k), k being the depth of the tree
 
-
 public class TreeNode {
     public var val: Int
     public var left: TreeNode?
