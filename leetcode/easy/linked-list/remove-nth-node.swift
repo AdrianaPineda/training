@@ -1,3 +1,4 @@
+// https://leetcode.com/explore/interview/card/top-interview-questions-easy/93/linked-list/603/
 // Given the head of a linked list, remove the nth node from the end of the list and return its head.
 
 // Time complexity: O(n)

@@ -79,8 +79,8 @@ func isSymmetricRecursive(leftNode: TreeNode?, rightNode: TreeNode?) -> Bool {
 
 // Iterative
 // Big O:
-// Time complexity: O()
-// Space complexity: O()
+// Time complexity: O(n)
+// Space complexity: O(n)
 extension TreeNode {
     func isNull() -> Bool {
         return self.right == nil && self.left == nil

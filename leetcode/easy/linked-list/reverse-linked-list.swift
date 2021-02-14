@@ -1,3 +1,4 @@
+// https://leetcode.com/explore/interview/card/top-interview-questions-easy/93/linked-list/560/
 // Reverse a singly linked list
 
 // 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> nil
