@@ -44,7 +44,7 @@ func getNodesArray(head: ListNode?) -> [ListNode] {
 // Time complexity: O(n)
 // Space complexity: O(1)
 func isPalindrome(_ head: ListNode?) -> Bool {
-    let secondHalf = getSecondHalf(head: head)
+    let secondHalf = getSecondHalf(head: head) // alternatively we can use the 2 runner pointer technique
     let secondHalfReversed = reverse(head: secondHalf)
 
     var firstPointer = head
@@ -90,6 +90,20 @@ func reverse(head: ListNode?) -> ListNode? {
     var currentNode = head
     var nextNode = head?.next
     head?.next = nil
+
+    while let uwNextNode = nextNode {
+        let tempNode = uwNextNode.next
+        uwNextNode.next = currentNode
+        currentNode = nextNode
+        nextNode = tempNode
+    }
+
+    return currentNode
+}
+
+func reverseAlt(head: ListNode?) -> ListNode? {
+    var currentNode = nil
+    var nextNode = head
 
     while let uwNextNode = nextNode {
         let tempNode = uwNextNode.next
