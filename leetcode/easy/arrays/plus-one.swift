@@ -34,7 +34,7 @@ func plusOne(_ digits: [Int]) -> [Int] {
 	}
 
 	if (lastIndex == -1) { // when all digits are 9
-		updatedDigits.insert(1, at: 0)
+		updatedDigits.insert(1, at: 0) // O(n)
 	} else {
 		updatedDigits[lastIndex] = digits[lastIndex] + 1
 	}
