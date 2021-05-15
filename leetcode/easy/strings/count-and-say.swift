@@ -10,7 +10,7 @@
 // With recursion
 
 // Time complexity: O(2^n) // assuming each iteration the string grows exponentially
-// Space complexity: O(n)
+// Space complexity: O(2^n)
 func countAndSay(_ n: Int) -> String {
     if n == 1 {
         return "1"
