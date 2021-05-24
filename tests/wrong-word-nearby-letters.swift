@@ -10,8 +10,8 @@
 word = "hello"
 */
 
-// Time complexity: O(n*n * n^m) => O(n^m), n the length of the word and m the avg number of nearby chars
-// Space complexity: O(n^m)
+// Time complexity: O(n*n * m^n) => O(m^n), n the length of the word and m the avg number of nearby chars
+// Space complexity: O(m^n)
 
 // Permutations
 func nearbyWords(word: String) -> Set<String> {
