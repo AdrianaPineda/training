@@ -138,5 +138,25 @@ func cloneGraphAlt(_ node: Node?) -> Node? {
 }
 
 // Recursive
+// Time complexity: O(n+e), n being the number of nodes and e the edges in the graph
+// Space complexity: O(n)
+var nodesDic = [Int: Node]()
 func cloneGraph(_ node: Node?) -> Node? {
+    guard let node = node else {
+        return nil
+    }
+
+    if let clonedNode = nodesDic[node.val] {
+        return clonedNode
+    }
+
+    let clonedNode = Node(node.val)
+    nodesDic[node.val] = clonedNode
+
+    for neighbor in node.neighbors {
+        guard let neighbor = neighbor else { continue }
+        clonedNode.neighbors.append(cloneGraph(neighbor))
+    }
+
+    return clonedNode
 }
