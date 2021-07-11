@@ -40,32 +40,30 @@ Example 2
 // Space complexity: O(n)
 
 func getNoMatchStrings(sChars: [Character], tChars: [Character]) -> ([Character], [Character], Int, Bool) {
-  var ocurrences = Set<Character>()
-  var noMatchS = [Character]()
-  var noMatchT = [Character]()
-  var matchingOriginal = 0
-  var duplicates = false
-  for i in 0..<sChars.count {
-    let charInS = sChars[i]
-    let charInT = tChars[i]
-    
-    if charInS == charInT {
-      matchingOriginal += 1
-      
-      if ocurrences.contains(charInS) {
-        duplicates = true
-      } else {
-        ocurrences.insert(charInS)
-      }
-      
-      continue
+    var ocurrences = Set<Character>()
+    var noMatchS = [Character]()
+    var noMatchT = [Character]()
+    var matchingOriginal = 0
+    var duplicates = false
+    for i in 0..<sChars.count {
+        let charInS = sChars[i]
+        let charInT = tChars[i]
+
+        guard charInS == charInT else {
+            noMatchS.append(charInS)
+            noMatchT.append(charInT)
+            continue
+        }
+
+        matchingOriginal += 1
+
+        if ocurrences.contains(charInS) {
+            duplicates = true
+        } else {
+            ocurrences.insert(charInS)
+        }
     }
-    
-    noMatchS.append(charInS)
-    noMatchT.append(charInT)
-  }
-  
-  return (noMatchS, noMatchT, matchingOriginal, duplicates)
+    return (noMatchS, noMatchT, matchingOriginal, duplicates)
 }
 
 func exchangeChars(i: Int, charToFind: Character, noMatchT: inout [Character]) -> Bool {
