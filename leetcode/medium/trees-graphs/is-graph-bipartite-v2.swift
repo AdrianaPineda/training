@@ -10,6 +10,8 @@ node -> A/B
 */
 
 // DFS loop
+// Time complexity: O(V+E)
+// Space complexity: O(V)
 func isBipartite(_ graph: [[Int]]) -> Bool {
     var groups = [Int: String]()
     var visited = Set<Int>()
@@ -61,6 +63,8 @@ func setNodeGroup(i: Int, nodeGroup: inout [Int: String]) {
     nodeGroup[i] = "A"
 }
 
+// Time complexity: O(V+E)
+// Space complexity: O(V)
 func isBipartite(_ graph: [[Int]]) -> Bool {
     var groups = [Int: String]()
 
@@ -93,6 +97,9 @@ func isBipartite(_ graph: [[Int]]) -> Bool {
     return true
 }
 
+// DFS recursive
+// Time complexity: O(V+E)
+// Space complexity: O(V)
 func isBipartite(_ graph: [[Int]]) -> Bool {
     var groups = [Int: String]()
 
