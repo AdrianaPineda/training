@@ -42,3 +42,20 @@ func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> 
 
 	return nil
 }
+
+func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
+	guard let root = root else { return nil }
+
+	if root.val == p?.val || root.val == q?.val {
+		return root
+	}
+
+	let leftParent = lowestCommonAncestor(root.left, p, q)
+	let rightParent = lowestCommonAncestor(root.right, p, q)
+
+	if leftParent != nil && rightParent != nil {
+		return root
+	}
+
+	return leftParent ?? rightParent
+}
