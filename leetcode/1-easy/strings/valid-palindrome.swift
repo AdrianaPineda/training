@@ -8,6 +8,37 @@ include letters and numbers.
 Given a string s, return true if it is a palindrome, or false otherwise.
 */
 
+// Option 2
+// Time complexity: O(n)
+// Space complexity: O(n)
+func isPalindrome(_ phrase: String) -> Bool {
+    let chars = Array(phrase)
+    var leftIndex = 0
+    var rightIndex = chars.count - 1
+
+    while leftIndex < rightIndex {
+        let leftChar = Character(chars[leftIndex].lowercased())
+        let rightChar = Character(chars[rightIndex].lowercased())
+
+        guard leftChar.isLetter || leftChar.isNumber else {
+            leftIndex += 1
+            continue
+        }
+        guard rightChar.isLetter || rightChar.isNumber else {
+            rightIndex -= 1
+            continue
+        }
+        guard leftChar == rightChar else { return false }
+
+        leftIndex += 1
+        rightIndex -= 1
+
+    }
+
+    return true
+}
+
+// Option 1
 extension Character {
     func isAlphaNumeric() -> Bool {
         if let _ = Int(String(self)) { return true }
