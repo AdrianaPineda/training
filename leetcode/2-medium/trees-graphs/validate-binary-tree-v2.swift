@@ -47,3 +47,11 @@ func isValidBSTRecursive(_ node: TreeNode?, prevVal: inout Int) -> Bool {
 
     return isValidBSTRecursive(node.right, prevVal: &prevVal)
 }
+
+func inorder(_ node: TreeNode?, arr: inout [Int]) {
+    guard let node = node else { return }
+
+    inorder(node.left, arr: &arr)
+    arr.append(node.val)
+    inorder(node.right, arr: &arr)
+}
