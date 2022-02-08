@@ -25,6 +25,56 @@ public class TreeNode {
 }
 
 class Solution {
+    // Option 3
+    // Time complexity: O(n), n being the number of nodes in the tree
+    // Space complexity: O(n), in the worst case scenario where the tree is not balanced
+    func maxPathSum(_ root: TreeNode?) -> Int {
+        var maxSum = Int.min
+        maxPathRecursive(root, maxSum: &maxSum)
+        return maxSum
+    }
+
+    func maxPathSumAlt(_ root: TreeNode?) -> Int {
+       let (path, _) = maxPathSumRecursive(root)
+       return path
+    }
+
+    func maxPathRecursive(_ node: TreeNode?, maxSum: inout Int) -> Int {
+        guard let node = node else { return 0 }
+        let leftSum = max(maxPathRecursive(node.left, maxSum: &maxSum), 0)
+        let rightSum = max(maxPathRecursive(node.right, maxSum: &maxSum), 0)
+
+        maxSum = max(maxSum, leftSum + node.val + rightSum)
+
+        return max(leftSum, rightSum) + node.val
+    }
+
+    // Option 2
+    // Time complexity: O(n), n being the number of nodes in the tree
+    // Space complexity: O(n), in the worst case scenario where the tree is not balanced
+    func maxPathSum(_ root: TreeNode?) -> Int {
+        let (path, tempPath) = maxPathSumRecursive(root)
+        return max(path, tempPath)
+    }
+
+    func maxPathSumRecursive(_ node: TreeNode?) -> (fullPath: Int, tempPath: Int) {
+        guard let node = node else { return (Int.min, 0) }
+
+        var (leftFull, leftTemp) = maxPathSumRecursive(node.left)
+        var (rightFull, rightTemp) = maxPathSumRecursive(node.right)
+
+        leftTemp = max(leftTemp, 0)
+        rightTemp = max(rightTemp, 0)
+
+        let fullPath = max(leftFull, rightFull, leftTemp + node.val + rightTemp)
+        let tempPath = max(leftTemp, rightTemp) + node.val
+
+        return (fullPath, tempPath)
+    }
+    
+    // Option 1
+    // Time complexity: O(n), n being the number of nodes in the tree
+    // Space complexity: O(n), in the worst case scenario where the tree is not balanced
     func maxPathSum(_ root: TreeNode?) -> Int {
         let (path, tempPath) = maxPathSumRecursive(root)
         return max(path, tempPath ?? Int.min)
